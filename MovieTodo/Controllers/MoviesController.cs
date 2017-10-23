@@ -78,7 +78,8 @@ namespace MovieTodo.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(overviewMovie);
+            //return View(overviewMovie);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Movies/Edit/5

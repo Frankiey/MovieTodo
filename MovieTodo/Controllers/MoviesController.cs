@@ -31,7 +31,10 @@ namespace MovieTodo.Controllers
             int watched = movies.Where(movie => movie.Watched == "Yes").Count();
             ViewData["MoviesWatched"] = watched;
 
-            return View(movies);
+            OverviewModel model = new OverviewModel();
+            model.movies = movies;
+
+            return View(model);
         }
 
         // GET: Movies/Details/5
@@ -63,16 +66,19 @@ namespace MovieTodo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Watched")] Movie movie)
+        public async Task<IActionResult> Create([Bind("ID,Title,Watched")] OverviewModel overviewMovie)
         {
             if (ModelState.IsValid)
             {
+                Movie movie = new Movie();
+                movie.Title = overviewMovie.Title;
                 movie.Watched = "No";
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(movie);
+
+            return View(overviewMovie);
         }
 
         // GET: Movies/Edit/5

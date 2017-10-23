@@ -12,5 +12,7 @@ namespace MovieTodo.Models
 
         [StringLength(60, MinimumLength = 3), Required]
         public string Title { get; set; }
+
+        public string Watched { get; set; }
     }
 }

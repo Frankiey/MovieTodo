@@ -57,6 +57,7 @@ namespace MovieTodo.Controllers
         {
             if (ModelState.IsValid)
             {
+                movie.Watched = "No";
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -113,6 +114,26 @@ namespace MovieTodo.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(movie);
+        }
+
+        // POST: Movies/Delete/5
+        public async Task<IActionResult> SetWatched(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var movie = await _context.Movie
+                 .SingleOrDefaultAsync(m => m.ID == id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            movie.Watched = movie.Watched == "Yes" ? "No" : "Yes";
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Movies/Delete/5

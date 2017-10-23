@@ -21,10 +21,16 @@ namespace MovieTodo.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
+            // Get the movies list.
             var movies = await _context.Movie.ToListAsync();
-            ViewData["MoviesCount"] = movies.Count;
+
+            // Count the amount of movies in the list.
+            ViewData["MoviesCount"] = movies.Count; 
+
+            // Count all the movies that are watched.
             int watched = movies.Where(movie => movie.Watched == "Yes").Count();
             ViewData["MoviesWatched"] = watched;
+
             return View(movies);
         }
 
